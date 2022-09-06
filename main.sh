@@ -12,5 +12,15 @@ sleep 2;
 [ "$(date "+%m")" -le "7" ] || exit
 [ "$(date "+%w")" -ne "1" ] || exit
 
+# terminate if we're on a national holiday
+[ "$(date "+%m%d")" = "0101" ] && exit # nieuwjaarsdag
+[ "$(date "+%m%d")" = "0427" ] && exit # koningsdag
+[ "$(date "+%m%d")" = "0505" ] && exit # bevrijdingsdag
+[ "$(date "+%m%d")" = "1225" ] && exit # 1e kerstdag
+[ "$(date "+%m%d")" = "1226" ] && exit # 2e kerstdag
+
+# Goede Vrijdag, Pasen, Hemelvaartsdag en Pinksteren kunnen nooit op een maandag vallen
+# En kunnen dus niet op de 1e maandag van de maand vallen. :)
+
 curl -Ss -H "Content-Type: application/json" \
          -d "{\"username\":\"HOOOOOEEEEEUUUUUUUUUU\", \"avatar_url\":\"$content\", \"content\":\"$content\"}" "$webhook"
